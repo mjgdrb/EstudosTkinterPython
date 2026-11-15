@@ -55,6 +55,7 @@ class Aplicativo(ctk.CTk):
         self.switch_mododark = ctk.CTkSwitch(self.barra_lateral,
                                              text="Modo Escuro")
         self.switch_mododark.pack(pady=(10,10), side="bottom")
+        self.switch_mododark.select()
 
     def construir_aba_perfil(self):
         self.aba_perfil = self.janela_abas.tab("Perfil")
@@ -99,8 +100,7 @@ class Aplicativo(ctk.CTk):
                                                 text="Salvar perfil",
                                                 fg_color="green",
                                                 hover_color="darkgreen")
-        self.botao_salvarPerfil.pack(pady=(20,20))
-        
+        self.botao_salvarPerfil.pack(pady=(20,20))     
 
     def construir_aba_preferencias(self):
         self.aba_preferencas = self.janela_abas.tab("Preferencias")
@@ -132,8 +132,28 @@ class Aplicativo(ctk.CTk):
                                               text="50%")
         self.label_valorVolume.pack()
 
-    def construir_aba_sistema(self):
-        pass
+    # aba dashboard
+    def construir_aba_sistema(self):            
+        self.aba_sistema = self.janela_abas.tab("Dashboard")
+
+        #label
+        self.label_carregamento = ctk.CTkLabel(self.aba_sistema,
+                                               text="Testar Carregamento do Sistema",
+                                               font=ctk.CTkFont(size=16))
+        self.label_carregamento.pack(pady=(30,30))
+
+        #barra de progresso
+
+        self.barra_progresso = ctk.CTkProgressBar(self.aba_sistema,
+                                                  width=400)
+        self.barra_progresso.pack(pady=(10,10))
+        self.barra_progresso.set(0)
+
+        #botao
+
+        self.botao_progresso = ctk.CTkButton(self.aba_sistema,
+                                            text="Iniciar Carregamento")
+        self.botao_progresso.pack(pady=(20,20))
         
 
 
