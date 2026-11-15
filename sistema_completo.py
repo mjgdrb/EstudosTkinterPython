@@ -155,7 +155,10 @@ class Aplicativo(ctk.CTk):
                                             text="Iniciar Carregamento")
         self.botao_progresso.pack(pady=(20,20))
         
-
+    def ir_para_dashboard(self):
+        pass
+    def mudar_modo_dark(self):
+        pass
 
 
 
