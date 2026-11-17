@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import time
 
 ctk.set_appearance_mode("dark")     # dark, system, light
 ctk.set_default_color_theme("blue") # blue, green, dark-blue
@@ -43,17 +44,25 @@ class Aplicativo(ctk.CTk):
         self.titulo = ctk.CTkLabel(self.barra_lateral, 
                                    text="Meu app",
                                    font=ctk.CTkFont(size=24, weight="bold"))
-        self.titulo.pack(pady=(30, 10), padx=(20,20))
+        self.titulo.pack(pady=(30, 5), padx=(20,20))
+
+        # subtitulo
+        self.subtitulo = ctk.CTkLabel(self.barra_lateral, 
+                                    text="")
+        self.subtitulo.pack(pady=(0, 10), padx=(20,20))
+        
 
         #botao
         self.botao_principal = ctk.CTkButton(self.barra_lateral,
-                                             text="Dashboard Principal")
+                                             text="Dashboard Principal",
+                                             command=self.ir_para_dashboard)
 
         self.botao_principal.pack(pady=(30.30), padx=(20,20))
 
         # switch
         self.switch_mododark = ctk.CTkSwitch(self.barra_lateral,
-                                             text="Modo Escuro")
+                                             text="Modo Escuro",
+                                             command=self.mudar_modo_dark)
         self.switch_mododark.pack(pady=(10,10), side="bottom")
         self.switch_mododark.select()
 
@@ -99,7 +108,8 @@ class Aplicativo(ctk.CTk):
         self.botao_salvarPerfil = ctk.CTkButton(self.aba_perfil,
                                                 text="Salvar perfil",
                                                 fg_color="green",
-                                                hover_color="darkgreen")
+                                                hover_color="darkgreen",
+                                                command=self.salvarPerfil)
         self.botao_salvarPerfil.pack(pady=(20,20))     
 
     def construir_aba_preferencias(self):
@@ -113,7 +123,7 @@ class Aplicativo(ctk.CTk):
 
         # idioma -> menu dropdown
         self.menu_idiomas = ctk.CTkOptionMenu(self.aba_preferencas,
-                                              values=["Portgues", "Ingles", "Espanhol"])
+                                              values=["Portugues", "Ingles", "Espanhol"])
         self.menu_idiomas.pack()
 
         #volume -> label
@@ -123,7 +133,8 @@ class Aplicativo(ctk.CTk):
 
         #volume -> slider
         self.slider_volume = ctk.CTkSlider(self.aba_preferencas,
-                                           from_=0, to=100)
+                                           from_=0, to=100,
+                                           command=self.atualizarVolume)
         self.slider_volume.pack()
         self.slider_volume.set(50)
 
@@ -152,13 +163,49 @@ class Aplicativo(ctk.CTk):
         #botao
 
         self.botao_progresso = ctk.CTkButton(self.aba_sistema,
-                                            text="Iniciar Carregamento")
+                                            text="Iniciar Carregamento", 
+                                            command=self.carregar)
         self.botao_progresso.pack(pady=(20,20))
         
     def ir_para_dashboard(self):
-        pass
+        self.janela_abas.set("Dashboard")
+
     def mudar_modo_dark(self):
-        pass
+        if self.switch_mododark.get() == 1:
+            ctk.set_appearance_mode("dark")
+        else:
+            ctk.set_appearance_mode("light")
+
+    def salvarPerfil(self):
+        nome = self.campo_nome.get().capitalize()
+
+        nivel = ""
+
+        if self.nivel_usuario.get() == 2:
+            nivel = "Admin"
+        else:
+            nivel = "Básico"
+
+        receber_notificacaoes = self.checkbox_notificacoes.get()
+
+        print("Nome: ", nome)
+        print("Nivel: ", nivel)
+        print("Receber notificacoes: ", receber_notificacaoes)
+
+        self.titulo.configure(text=f"{nome} App")
+        self.subtitulo.configure(text=nivel)
+
+    def atualizarVolume(self, novoValorVolume):
+        novoValorVolume = self.slider_volume.get()
+        self.label_valorVolume.configure(text=f"{int(novoValorVolume)}%")
+
+    def carregar(self):
+        for i in range(100):
+
+            time.sleep(0.1)
+            self.barra_progresso.set((i+1)/100)
+            
+            self.update()
 
 
 
